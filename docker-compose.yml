@@ -1,0 +1,22 @@
+version: '3.5'
+
+services:
+  proxy: &proxy
+    container_name: proxy
+    image: proxy
+    build:
+      context: .
+      dockerfile: compose/proxy/Dockerfile
+    env_file:
+      - compose/proxy/.env
+    links:
+      - redis
+    depends_on:
+      - redis
+    volumes:
+    - ./proxy:/proxy
+    ports:
+     - 8080:8080
+
+  redis:
+    image: redis:alpine
